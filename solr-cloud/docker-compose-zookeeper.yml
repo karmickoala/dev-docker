@@ -1,0 +1,73 @@
+---
+version: '2'
+
+services:
+
+  zookeeper-1:
+    image: "zookeeper-1"
+    container_name: "zookeeper-1"
+    hostname: "zookeeper-1"
+    build: "zookeeper/zookeeper-1/"
+    volumes:
+      - ./zookeeper/zookeeper-common/conf/:/opt/zookeeper/current/conf/
+      - ./zookeeper/zookeeper-1/data/:/opt/zookeeper/data/
+    networks:
+      - solr_cloud
+    ports:
+      - 12181:2181
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+    command: /opt/zookeeper/current/bin/zkServer.sh start-foreground
+
+  zookeeper-2:
+    image: "zookeeper-2"
+    container_name: "zookeeper-2"
+    hostname: "zookeeper-2"
+    build: "zookeeper/zookeeper-2/"
+    volumes:
+      - ./zookeeper/zookeeper-common/conf/:/opt/zookeeper/current/conf/
+      - ./zookeeper/zookeeper-2/data/:/opt/zookeeper/data/
+    networks:
+      - solr_cloud
+    ports:
+      - 12182:2181
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+    command: /opt/zookeeper/current/bin/zkServer.sh start-foreground
+
+  zookeeper-3:
+    image: "zookeeper-3"
+    container_name: "zookeeper-3"
+    hostname: "zookeeper-3"
+    build: "zookeeper/zookeeper-3/"
+    volumes:
+      - ./zookeeper/zookeeper-common/conf/:/opt/zookeeper/current/conf/
+      - ./zookeeper/zookeeper-3/data/:/opt/zookeeper/data/
+    networks:
+      - solr_cloud
+    ports:
+      - 12183:2181
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+    command: /opt/zookeeper/current/bin/zkServer.sh start-foreground
+
+  solr-for-upconfig:
+    image: "solr-for-upconfig"
+    container_name: "solr-for-upconfig"
+    hostname: "solr-for-upconfig"
+    build: "zookeeper/solr-for-upconfig/"
+    volumes:
+      - ./tmp/configs/:/opt/solr/configs/
+    networks:
+      - solr_cloud
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+    command: /sbin/init
+
+
+
+networks:
+  solr_cloud:
+    driver: bridge
+
+

@@ -1,0 +1,82 @@
+---
+version: '2'
+
+services:
+
+  solr-1:
+    image: "solr-1"
+    container_name: "solr-1"
+    hostname: "solr-1"
+    build: "solr/solr-1/"
+    networks:
+      - solr_cloud
+    ports:
+      - 18983:8983
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+      - "ZK_HOST=zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: /opt/solr/current/bin/solr start -f -force
+
+  solr-2:
+    image: "solr-2"
+    container_name: "solr-2"
+    hostname: "solr-2"
+    build: "solr/solr-2/"
+    networks:
+      - solr_cloud
+    ports:
+      - 18984:8983
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+      - "ZK_HOST=zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: /opt/solr/current/bin/solr start -f -force
+
+  solr-3:
+    image: "solr-3"
+    container_name: "solr-3"
+    hostname: "solr-3"
+    build: "solr/solr-3/"
+    networks:
+      - solr_cloud
+    ports:
+      - 18985:8983
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+      - "ZK_HOST=zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: /opt/solr/current/bin/solr start -f -force
+
+  solr-4:
+    image: "solr-4"
+    container_name: "solr-4"
+    hostname: "solr-4"
+    build: "solr/solr-4/"
+    networks:
+      - solr_cloud
+    ports:
+      - 18986:8983
+    environment:
+      - "JAVA_HOME=/opt/java/current"
+      - "ZK_HOST=zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: /opt/solr/current/bin/solr start -f -force
+
+networks:
+  solr_cloud:
+    driver: bridge
+
+
